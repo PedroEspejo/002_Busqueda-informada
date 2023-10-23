@@ -7,7 +7,6 @@ def a_star_search(graph, start, goal):
     g_score = {node: float('inf') for node in graph}
     g_score[start] = 0
     
-
     while open_list:
         current_cost, current_node = heapq.heappop(open_list)
         
@@ -35,13 +34,20 @@ def reconstruct_path(came_from, current_node):
 
 
 # Ejemplo
+def heuristic(node, goal):
+    # Esta es una heurística simple que devuelve la distancia entre los nodos
+    return abs(node[0] - goal[0]) + abs(node[1] - goal[1])
+
 graph = {
-    'A': [('B', 1), ('C', 3)],
-    'B': [('A', 1), ('C', 1), ('D', 4)],
-    'C': [('A', 3), ('B', 1), ('D', 1)],
-    'D': [('B', 4), ('C', 1)]
+    (0, 0): [((0, 1), 1), ((1, 0), 1)],
+    (0, 1): [((0, 0), 1), ((0, 2), 1)],
+    (0, 2): [((0, 1), 1), ((1, 2), 1)],
+    (1, 0): [((0, 0), 1), ((1, 1), 1)],
+    (1, 1): [((1, 0), 1), ((0, 1), 1), ((1, 2), 1)],
+    (1, 2): [((1, 1), 1), ((0, 2), 1)]
 }
-start_node = 'A'
-goal_node = 'D'
+
+start_node = (0, 0)
+goal_node = (1, 2)
 path = a_star_search(graph, start_node, goal_node)
 print("Camino encontrado:", path)
